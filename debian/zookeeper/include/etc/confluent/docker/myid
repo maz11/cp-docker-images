@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+### added code
+
+hostname="$(echo $HOSTNAME)"
+awsId="${HOSTNAME: -1 -3}"
+
+
+function hostnameOK(){
+    export ZOOKEEPER_SERVER_ID="$(echo $(($awsId % 255)))"
+    # echo "ZOOKEEPER_SERVER_ID=${ZOOKEEPER_SERVER_ID}" >> /root/.profile
+    # source /root/.profile
+}
+
+function hostnameNotOK(){
+    declare -i num num2
+    num=0
+    for l in  $(grep -o . <<<"$awsId");
+        do 
+            num2="$(printf '%d' "'$l")"
+            num+=num2
+        done
+
+   
+    export ZOOKEEPER_SERVER_ID="$(echo $(($num % 255)))"
+    # echo "ZOOKEEPER_SERVER_ID=${ZOOKEEPER_SERVER_ID}" >> /etc/environment
+    # source /root/.profile
+}
+
+[[ "${awsId//[0-9]/}" = "" ]] && hostnameOK || hostnameNotOK
+
+
+servers="$(env | grep ZOOKEEPER_SERVERS)"
+echo $servers
+servers=$(echo $servers | sed -e "s/${hostname}/0.0.0.0/g")
+unset ZOOKEEPER_SERVERS
+export "$(echo $servers)"
+env | sort
+
+sed -e "s/${hostname}/0.0.0.0/g" /etc/kafka/zookeeper.properties
+cat /etc/kafka/zookeeper.properties
+###
