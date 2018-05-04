@@ -30,13 +30,9 @@ function hostnameNotOK(){
 [[ "${awsId//[0-9]/}" = "" ]] && hostnameOK || hostnameNotOK
 
 
-servers="$(env | grep ZOOKEEPER_SERVERS)"
-echo $servers
-servers=$(echo $servers | sed -e "s/${hostname}/0.0.0.0/g")
-unset ZOOKEEPER_SERVERS
-export "$(echo $servers)"
-env | sort
+# servers="$(env | grep ZOOKEEPER_SERVERS)"
+# servers=$(echo $servers | sed -e "s/${hostname}/0.0.0.0/g")
+# unset ZOOKEEPER_SERVERS
+# export "$(echo $servers)"
 
-sed -e "s/${hostname}/0.0.0.0/g" /etc/kafka/zookeeper.properties
-cat /etc/kafka/zookeeper.properties
 ###

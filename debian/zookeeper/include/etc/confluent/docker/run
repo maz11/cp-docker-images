@@ -25,14 +25,14 @@ env | sort
 echo "===> User"
 id
 
-echo "===> Setting ZOOKEEPER_SERVER_ID ..."
-/etc/confluent/docker/myid
-
 echo "===> Configuring ..."
 /etc/confluent/docker/configure
 
 echo "===> Running preflight checks ... "
 /etc/confluent/docker/ensure
+
+echo "===> Setting ZOOKEEPER_SERVER_ID ..."
+/etc/confluent/docker/myid
 
 echo "===> Launching ... "
 exec /etc/confluent/docker/launch

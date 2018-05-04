@@ -42,4 +42,10 @@ fi
 
 echo "===> Launching ${COMPONENT} ... "
 
+sed -e "s/${hostname}/0.0.0.0/g" /etc/kafka/zookeeper.properties
+echo "Prining /etc/kafka/zookeeper.properties"
+echo "----------------------------------------"
+cat /etc/kafka/zookeeper.properties
+echo "----------------------------------------"
+
 exec "${COMPONENT}"-server-start /etc/kafka/"${COMPONENT}".properties
