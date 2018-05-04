@@ -41,4 +41,5 @@ then
 fi
 
 echo "===> Launching ${COMPONENT} ... "
+
 exec "${COMPONENT}"-server-start /etc/kafka/"${COMPONENT}".properties
